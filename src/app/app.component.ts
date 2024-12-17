@@ -67,6 +67,7 @@ export class AppComponent {
     { name: 'Fixed Cost' }
     // Add other project types here
   ];
+  trueProbability: any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, public dialog: MatDialog) {
     this.jobForm = this.fb.group({
@@ -107,10 +108,14 @@ export class AppComponent {
       }];
       this.apiService.predict(payload).subscribe({
         next: (response) => {
-          const falseData = response?.data?.false?.data[0];          
+          const trueData = response?.data?.true;          
+          const falseData = response?.data?.false;          
+          if (trueData && trueData?.data[0])  {
+            this.trueProbability = trueData?.data[0]['Probability (%)'];            
+          } 
           if (falseData) {
-            this.probability = falseData['Probability (%)'];            
-          }
+            this.probability = falseData?.data[0]['Probability (%)'];            
+          }     
           this.showPopup = true;
           this.openModal();
         },
@@ -131,9 +136,15 @@ export class AppComponent {
 
   openModal(): void {
     // Open the modal and pass the probability value
-    this.dialog.open(ProgressPopupComponent, {
-      data: { probability: this.probability }
+    const dialogRef = this.dialog.open(ProgressPopupComponent, {
+      data: { probability: this.probability, trueProbability: this.trueProbability }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed', result);
+      // If needed, you can reset the form or perform other actions
+      this.jobForm.reset();
     });
   }
   
-}
+} 

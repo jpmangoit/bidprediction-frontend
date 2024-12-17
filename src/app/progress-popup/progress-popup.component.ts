@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-progress-popup',
@@ -10,5 +10,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './progress-popup.component.css'
 })
 export class ProgressPopupComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<ProgressPopupComponent>) {
+    console.log(data);
+    
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close(); // Close the dialog
+  }
 }
