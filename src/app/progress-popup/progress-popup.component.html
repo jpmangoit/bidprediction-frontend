@@ -1,0 +1,10 @@
+<div class="popup-overlay" *ngIf="data.probability">
+    <div class="popup-container">
+      <h3>Prediction Probability</h3>
+      <div class="progress-bar">
+        <div class="progress" [style.width]="data.probability + '%'"></div>
+      </div>
+      <div class="probability-text">{{ data.probability }}%</div>
+    </div>
+  </div>
+  

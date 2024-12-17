@@ -5,22 +5,29 @@ import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiService } from './services/app.service';
+import { ProgressPopupComponent } from './progress-popup/progress-popup.component';
+import { ApiService } from './service/app.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    MatDialogModule, 
     RouterOutlet,
     ReactiveFormsModule, // For formGroup
     CommonModule,
     NgSelectModule,
     HttpClientModule,
+    ProgressPopupComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  probability: number = 0;
+  showPopup: boolean = false;
   title = 'upwork-detail';
   jobForm: FormGroup;
   industries = ["Education / eLearning", "Food & Beverages", "Healthcare", "Information Technology & Services", "Marketplaces", "Others", "Real Estate", "Travel and Hospitality", "Web Development", "eCommerce"];
@@ -61,7 +68,7 @@ export class AppComponent {
     // Add other project types here
   ];
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, public dialog: MatDialog) {
     this.jobForm = this.fb.group({
       createdTime: ['', Validators.required],
       industry: ['', Validators.required],
@@ -81,10 +88,8 @@ export class AppComponent {
   }
 
   onSubmit() {
-    console.log(this.jobForm);
-    
     if (this.jobForm.valid) {
-      const payload = {
+      const payload = [{
         "Created Time": this.jobForm.value.createdTime, 
         "Industry": this.jobForm.value.industry,
         "Technology": this.jobForm.value.technology,
@@ -99,12 +104,15 @@ export class AppComponent {
         "Connects Used": this.jobForm.value.connectsUsed,
         "Boosted": this.jobForm.value.boosted,
         "Upwork Profile": this.jobForm.value.upworkProfile
-      };
-      console.log(payload);
-
+      }];
       this.apiService.predict(payload).subscribe({
         next: (response) => {
-          console.log('API Response:', response);
+          const falseData = response?.data?.false?.data[0];          
+          if (falseData) {
+            this.probability = falseData['Probability (%)'];            
+          }
+          this.showPopup = true;
+          this.openModal();
         },
         error: (error) => {
           console.error('API Error:', error);
@@ -119,4 +127,13 @@ export class AppComponent {
   get f() {
     return this.jobForm.controls;
   }
+
+
+  openModal(): void {
+    // Open the modal and pass the probability value
+    this.dialog.open(ProgressPopupComponent, {
+      data: { probability: this.probability }
+    });
+  }
+  
 }
