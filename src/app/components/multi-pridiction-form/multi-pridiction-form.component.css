@@ -1,0 +1,3 @@
+::ng-deep .data-bulk mat-tab-group.mat-mdc-tab-group.mat-primary {
+    border: 1px solid grey;
+}

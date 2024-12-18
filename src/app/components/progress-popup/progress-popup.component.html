@@ -1,24 +1,32 @@
 <div class="popup-overlay" *ngIf="data.probability">
   <div class="popup-container">
-    <h3>Bid Converted Probability</h3>
+    <h3>Bid Conversion Rate (%)</h3>
+    <span>
+      <b>Success Rate: </b> FALSE
+    </span>
     <div class="progress-bar">
       <div class="progress-false" [style.width]="data.probability + '%'"></div>
     </div>
-    <div class="probability-text">{{ data.probability }}%</div>
-    <div>
+    <div class="probability-text  center-align-percantage">{{ data.probability }}%</div>
+    <div class="right-align-ok">
+      <br>
       <button class="btn btn-primary" (click)="closeDialog()">Ok</button>
     </div>
   </div>
 </div>
 <div class="popup-overlay" *ngIf="data.trueProbability">
   <div class="popup-container">
-    <h3>Bid Converted Probability</h3>
+    <h3>Bid Conversion Rate (%)</h3>
+    <span>
+      <b>Success Rate: </b> TRUE
+    </span>
     <div class="progress-bar">
       <div class="progress" [style.width]="data.trueProbability + '%'"></div>
     </div>
-    <div class="probability-text">{{ data.trueProbability }}%</div>
-    <div>
-      <button class="btn btn-primary" (click)="closeDialog()">Ok</button>
+    <div class="probability-text center-align-percantage">{{ data.trueProbability }}%</div>
+    <div class="right-align-ok">
+      <br>
+      <button class="btn btn-primary " (click)="closeDialog()">Ok</button>
     </div>
   </div>
 </div>

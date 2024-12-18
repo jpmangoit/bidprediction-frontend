@@ -1,20 +1,9 @@
-.error {
-    color: red;
-    font-size: 12px;
-  }
-::ng-deep  ng-dropdown-panel {
-    background: #fff;
-    padding: 10px;
-    border: 1px solid grey;
-    border-radius: 5px;
+.logo-container {
+  margin: 20px;
+  text-align: center;
 }
 
-.logo-container {
-    margin: 20px;
-    text-align: center;
-  }
-  
-  .logo-container img {
-    width: 150px; /* You can adjust the size as needed */
-  }
-  
+.logo-container img {
+  width: 150px; /* You can adjust the size as needed */
+}
+

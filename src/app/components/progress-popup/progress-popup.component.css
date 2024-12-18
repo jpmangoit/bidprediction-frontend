@@ -12,10 +12,10 @@
   
   .popup-container {
     background: white;
-    padding: 20px;
+    padding: 40px;
     border-radius: 8px;
-    width: 300px;
-    text-align: center;
+    width: 900px;
+    min-height: 300px;
   }
   
   .progress-bar {
@@ -41,4 +41,11 @@
     font-size: 16px;
     font-weight: bold;
   }
+
+  .center-align-percantage {
+    text-align: center;
+  }
   
+  .right-align-ok {
+    text-align: right;
+  }
