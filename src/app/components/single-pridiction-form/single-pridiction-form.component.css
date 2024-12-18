@@ -8,6 +8,25 @@
     border: 1px solid grey;
     border-radius: 5px;
 }
+::ng-deep .data-bulk mat-tab-group.mat-mdc-tab-group.mat-primary {
+  border: 1px solid grey;
+}
 
 
-  
+.error-message {
+  color: red; /* Red color for error */
+  background-color: #f8d7da; /* Light red background for emphasis */
+  border: 1px solid #f5c6cb; /* Light red border */
+  padding: 10px; /* Add some padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  font-weight: bold; /* Make the text bold */
+  margin-top: 10px; /* Add space above the error message */
+  word-wrap: break-word; /* Ensure long messages wrap correctly */
+}
+
+
+.custom-spinner {
+  margin: 0 auto;
+  width: 30px !important; /* Set the diameter */
+  height: 30px !important; /* Set the diameter */
+}

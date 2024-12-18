@@ -1,9 +1,13 @@
 <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm">
   <!-- Created Time -->
+  <div *ngIf="errorMessage" class="error-message mb-3">
+    {{ errorMessage }}
+  </div> 
+  
   <div class="mb-3">
     <label for="createdTime" class="form-label">Created Time</label>
     <input type="datetime-local" id="createdTime" class="form-control" formControlName="createdTime" />
-    <div *ngIf="f.createdTime.touched && f.createdTime.invalid" class="text-danger">
+    <div *ngIf="submitted && f.createdTime.invalid" class="text-danger">
       <small *ngIf="f.createdTime.errors?.required">Created Time is required.</small>
     </div>
   </div>
@@ -14,7 +18,7 @@
     <ng-select id="industry" formControlName="industry" [items]="industries" bindLabel="name" [searchable]="true"
       class="form-control">
     </ng-select>
-    <div *ngIf="f.industry.touched && f.industry.invalid" class="text-danger">
+    <div *ngIf="submitted && f.industry.invalid" class="text-danger">
       <small *ngIf="f.industry.errors?.required">Industry is required.</small>
     </div>
   </div>
@@ -25,7 +29,7 @@
     <ng-select id="technology" formControlName="technology" [items]="technologies" bindLabel="name" [searchable]="true"
       class="form-control">
     </ng-select>
-    <div *ngIf="f.technology.touched && f.technology.invalid" class="text-danger">
+    <div *ngIf="submitted && f.technology.invalid" class="text-danger">
       <small *ngIf="f.technology.errors?.required">Technology is required.</small>
     </div>
   </div>
@@ -36,7 +40,7 @@
     <ng-select id="technologyCategory" formControlName="technologyCategory" [items]="technologyCategories"
       bindLabel="name" [searchable]="true" class="form-control">
     </ng-select>
-    <div *ngIf="f.technologyCategory.touched && f.technologyCategory.invalid" class="text-danger">
+    <div *ngIf="submitted && f.technologyCategory.invalid" class="text-danger">
       <small *ngIf="f.technologyCategory.errors?.required">Technology Category is required.</small>
     </div>
   </div>
@@ -47,7 +51,7 @@
     <ng-select id="bidType" formControlName="bidType" [items]="bidTypes" bindLabel="name" [searchable]="true"
       class="form-control">
     </ng-select>
-    <div *ngIf="f.bidType.touched && f.bidType.invalid" class="text-danger">
+    <div *ngIf="submitted && f.bidType.invalid" class="text-danger">
       <small *ngIf="f.bidType.errors?.required">Bid Type is required.</small>
     </div>
   </div>
@@ -58,7 +62,7 @@
     <ng-select id="projectType" formControlName="projectType" [items]="projectTypes" bindLabel="name"
       [searchable]="true" class="form-control">
     </ng-select>
-    <div *ngIf="f.projectType.touched && f.projectType.invalid" class="text-danger">
+    <div *ngIf="submitted && f.projectType.invalid" class="text-danger">
       <small *ngIf="f.projectType.errors?.required">Project Type is required.</small>
     </div>
   </div>
@@ -69,7 +73,7 @@
     <ng-select id="country" formControlName="country" [items]="countries" bindLabel="name" [searchable]="true"
       class="form-control">
     </ng-select>
-    <div *ngIf="f.country.touched && f.country.invalid" class="text-danger">
+    <div *ngIf="submitted && f.country.invalid" class="text-danger">
       <small *ngIf="f.country.errors?.required">Country is required.</small>
     </div>
   </div>
@@ -79,14 +83,14 @@
     <div class="col-md-6">
       <label for="interviewHeld" class="form-label">Interviews Held</label>
       <input type="number" id="interviewHeld" class="form-control" formControlName="interviewHeld" />
-      <div *ngIf="f.interviewHeld.touched && f.interviewHeld.invalid" class="text-danger">
+      <div *ngIf="submitted && f.interviewHeld.invalid" class="text-danger">
         <small *ngIf="f.interviewHeld.errors?.required">Interview Held is required.</small>
       </div>
     </div>
     <div class="col-md-6">
       <label for="budget" class="form-label">Budget ($)</label>
       <input type="number" id="budget" class="form-control" formControlName="budget" />
-      <div *ngIf="f.budget.touched && f.budget.invalid" class="text-danger">
+      <div *ngIf="submitted && f.budget.invalid" class="text-danger">
         <small *ngIf="f.budget.errors?.required">Budget is required.</small>
       </div>
     </div>
@@ -94,7 +98,7 @@
       <div class="form-group">
         <label for="noOfApplicants">No of Applicants</label>
         <input id="noOfApplicants" type="number" class="form-control" formControlName="noOfApplicants">
-        <div *ngIf="f.noOfApplicants.touched && f.noOfApplicants.invalid" class="text-danger">
+        <div *ngIf="submitted && f.noOfApplicants.invalid" class="text-danger">
           <small *ngIf="f.noOfApplicants.errors?.required">No of Applicants is required.</small>
         </div>
       </div>
@@ -103,7 +107,7 @@
       <div class="form-group">
         <label for="hourlyRate">Hourly Rate</label>
         <input id="hourlyRate" type="number" class="form-control" formControlName="hourlyRate">
-        <div *ngIf="f.hourlyRate.touched && f.hourlyRate.invalid" class="text-danger">
+        <div *ngIf="submitted && f.hourlyRate.invalid" class="text-danger">
           <small *ngIf="f.hourlyRate.errors?.required">Hourly Rate is required.</small>
         </div>
       </div>
@@ -113,7 +117,7 @@
   <div class="mb-3 mt-3">
     <label for="connectsUsed" class="form-label">Connects Used</label>
     <input type="number" id="connectsUsed" class="form-control" formControlName="connectsUsed" />
-    <div *ngIf="f.connectsUsed.touched && f.connectsUsed.invalid" class="text-danger">
+    <div *ngIf="submitted && f.connectsUsed.invalid" class="text-danger">
       <small *ngIf="f.connectsUsed.errors?.required">Connects Used is required.</small>
     </div>
   </div>
@@ -130,11 +134,14 @@
     <ng-select id="upworkProfile" formControlName="upworkProfile" [items]="upworkProfiles" bindLabel="name"
       [searchable]="true" class="form-control">
     </ng-select>
-    <div *ngIf="f.upworkProfile.touched && f.upworkProfile.invalid" class="text-danger">
+    <div *ngIf="submitted && f.upworkProfile.invalid" class="text-danger">
       <small *ngIf="f.upworkProfile.errors?.required">Upwork Profile is required.</small>
     </div>
   </div>
 
   <!-- Submit Button -->
-  <button type="submit" class="btn btn-primary w-100">Submit</button>
+  <button *ngIf="!spinnerSubmit" type="submit" class="btn btn-primary w-100">Submit</button>
+  <button *ngIf="spinnerSubmit" class="btn btn-outline-dark w-100" disabled><mat-spinner class="custom-spinner"></mat-spinner></button>
+
+
 </form>

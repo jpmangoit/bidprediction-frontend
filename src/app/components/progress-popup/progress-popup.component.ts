@@ -15,7 +15,7 @@ export class ProgressPopupComponent {
     
   }
 
-  closeDialog(): void {
-    this.dialogRef.close(); // Close the dialog
+  closeDialog(value?: any): void {
+    this.dialogRef.close(value); // Close the dialog
   }
 }

@@ -6,8 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MultiPridictionFormComponent } from '../multi-pridiction-form/multi-pridiction-form.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-single-pridiction-form',
   standalone: true,
@@ -17,14 +16,17 @@ import { MultiPridictionFormComponent } from '../multi-pridiction-form/multi-pri
     CommonModule,
     NgSelectModule,
     HttpClientModule,
-    ProgressPopupComponent
+    ProgressPopupComponent,
+    MatProgressSpinnerModule
   ],
   templateUrl: './single-pridiction-form.component.html',
   styleUrl: './single-pridiction-form.component.css'
 })
 export class SinglePridictionFormComponent {
+  spinnerSubmit = false;
   probability: number = 0;
   showPopup: boolean = false;
+  submitted = false;
   title = 'upwork-detail';
   jobForm: FormGroup;
   industries = ["Education / eLearning", "Food & Beverages", "Healthcare", "Information Technology & Services", "Marketplaces", "Others", "Real Estate", "Travel and Hospitality", "Web Development", "eCommerce"];
@@ -65,6 +67,7 @@ export class SinglePridictionFormComponent {
     // Add other project types here
   ];
   trueProbability: any;
+  errorMessage: any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService, public dialog: MatDialog) {
     this.jobForm = this.fb.group({
@@ -86,7 +89,9 @@ export class SinglePridictionFormComponent {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.jobForm.valid) {
+      this.spinnerSubmit = true;
       const payload = [{
         "Created Time": this.jobForm.value.createdTime,
         "Industry": this.jobForm.value.industry,
@@ -114,10 +119,24 @@ export class SinglePridictionFormComponent {
             this.probability = falseData?.data[0]['Probability (%)'];
           }
           this.showPopup = true;
+          this.spinnerSubmit = false;
+
           this.openModal();
         },
         error: (error) => {
           console.error('API Error:', error);
+
+          // Check if error response has a specific message
+          if (error.error && error.error.message) {
+            // Assuming error.message contains a readable error message
+            console.error('Error message:', error.error.message);
+            // You can also display it in your UI, for example:
+            this.errorMessage = error.error.message;
+          } else {
+            console.error('Unknown error occurred');
+            this.errorMessage = 'An unknown error occurred. Please try again later.';
+          }
+          this.spinnerSubmit = false;
         },
       });
     } else {
@@ -139,8 +158,10 @@ export class SinglePridictionFormComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog closed', result);
+      if (result == 'reset') {
+        this.jobForm.reset();
+      }
       // If needed, you can reset the form or perform other actions
-      this.jobForm.reset();
     });
   }
 }

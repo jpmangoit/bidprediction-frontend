@@ -5,14 +5,18 @@
         <div class="col-md-12">
             <label for="sheet_url" class="form-label">Sheet Url</label>
             <input type="text" id="sheet_url" class="form-control" formControlName="sheet_url" />
-            <div *ngIf="f.sheet_url.touched && f.sheet_url.invalid" class="text-danger">
+            <div *ngIf="submitted && f.sheet_url.invalid" class="text-danger">
                 <small *ngIf="f.sheet_url.errors?.required">Sheet Url is required.</small>
             </div>
         </div>
     </div>
-
+    <div *ngIf="errorMessage" class="error-message mb-3">
+        {{ errorMessage }}
+    </div>      
+      
     <!-- Submit Button -->
-    <button type="submit" class="btn btn-primary w-100">Submit</button>
+    <button *ngIf="!spinnerSubmit" type="submit" class="btn btn-primary w-100">Submit</button>
+    <button *ngIf="spinnerSubmit" class="btn btn-outline-dark w-100" disabled><mat-spinner class="custom-spinner"></mat-spinner></button>
 </form>
 
 <br>

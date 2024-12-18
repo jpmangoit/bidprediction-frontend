@@ -4,7 +4,7 @@ import { ApiService } from '../../service/app.service';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-multi-pridiction-form',
   standalone: true,
@@ -13,18 +13,22 @@ import {MatTableModule} from '@angular/material/table';
     CommonModule,
     MatTabsModule, 
     MatTableModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './multi-pridiction-form.component.html',
   styleUrl: './multi-pridiction-form.component.css'
 })
 export class MultiPridictionFormComponent {
   probability: number = 0;
+  spinnerSubmit = false;
   showPopup: boolean = false;
+  submitted = false;
   title = 'upwork-detail';
   jobForm: FormGroup;
   apiResponse: any = {}; // Holds API response data
   trueData: any[] = []; // Data for 'true' tab
   falseData: any[] = []; // Data for 'false' tab
+  errorMessage: any;
   
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.jobForm = this.fb.group({
@@ -33,7 +37,9 @@ export class MultiPridictionFormComponent {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.jobForm.valid) {
+      this.spinnerSubmit = true;
       const payload = {
         "sheet_url": this.jobForm.value.sheet_url
       };
@@ -46,9 +52,22 @@ export class MultiPridictionFormComponent {
           // Separate true and false data
           this.trueData = response.data.true.data;
           this.falseData = response.data.false.data;
+          this.spinnerSubmit = false;
         },
         error: (error) => {
           console.error('API Error:', error);
+
+          // Check if error response has a specific message
+          if (error.error && error.error.message) {
+            // Assuming error.message contains a readable error message
+            console.error('Error message:', error.error.message);
+            // You can also display it in your UI, for example:
+            this.errorMessage = error.error.message;
+          } else {
+            console.error('Unknown error occurred');
+            this.errorMessage = 'An unknown error occurred. Please try again later.';
+          }
+          this.spinnerSubmit = false;
         },
       });
     } else {
