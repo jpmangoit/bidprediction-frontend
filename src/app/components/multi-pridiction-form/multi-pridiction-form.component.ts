@@ -37,6 +37,7 @@ export class MultiPridictionFormComponent {
   }
 
   onSubmit() {
+    this.errorMessage = '';
     this.submitted = true;
     if (this.jobForm.valid) {
       this.spinnerSubmit = true;

@@ -89,6 +89,7 @@ export class SinglePridictionFormComponent {
   }
 
   onSubmit() {
+    this.errorMessage = '';
     this.submitted = true;
     if (this.jobForm.valid) {
       this.spinnerSubmit = true;
@@ -160,6 +161,8 @@ export class SinglePridictionFormComponent {
       console.log('Dialog closed', result);
       if (result == 'reset') {
         this.jobForm.reset();
+        this.submitted = false;
+
       }
       // If needed, you can reset the form or perform other actions
     });
