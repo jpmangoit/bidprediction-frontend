@@ -24,7 +24,7 @@ import { TablePaginationComponent } from '../../shared/table-pagination/table-pa
 })
 export class MultiPridictionFormComponent {
 
-  displayedColumns: string[] = ['serialNo', 'Bid Type Encoded', 'Boosted Encoded', 'Budget Normalized', 'Probability (%)', 'Year'];
+  displayedColumns: string[] = ['serialNo', 'Bid Type Encoded', 'Boosted Encoded', 'Probability (%)', 'Year'];
 
   probability: number = 0;
   spinnerSubmit = false;

@@ -17,11 +17,6 @@
             <td mat-cell *matCellDef="let row"> {{ row["Boosted Encoded"] }} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Budget Normalized">
-            <th mat-header-cell *matHeaderCellDef> Budget Normalized </th>
-            <td mat-cell *matCellDef="let row"> {{ row["Budget Normalized"] }} </td>
-        </ng-container>
-
         <ng-container matColumnDef="Probability (%)">
             <th mat-header-cell *matHeaderCellDef> Probability (%) </th>
             <td mat-cell *matCellDef="let row"> {{ row["Probability (%)"] }}% </td>
@@ -32,7 +27,6 @@
             <td mat-cell *matCellDef="let row"> {{ row["Month"] }}/{{ row["Year"] }} </td>
         </ng-container>
 
-        <!-- Table headers and rows -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns">
         </tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;">
