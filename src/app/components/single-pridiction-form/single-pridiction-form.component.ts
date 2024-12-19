@@ -121,7 +121,7 @@ export class SinglePridictionFormComponent {
           }
           this.showPopup = true;
           this.spinnerSubmit = false;
-
+          this.submitted = false;
           this.openModal();
         },
         error: (error) => {
@@ -137,6 +137,7 @@ export class SinglePridictionFormComponent {
             console.error('Unknown error occurred');
             this.errorMessage = 'An unknown error occurred. Please try again later.';
           }
+          this.submitted = false;
           this.spinnerSubmit = false;
         },
       });

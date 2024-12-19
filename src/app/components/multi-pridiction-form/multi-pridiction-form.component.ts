@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../service/app.service';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { TablePaginationComponent } from '../../shared/table-pagination/table-pagination.component';
 @Component({
   selector: 'app-multi-pridiction-form',
   standalone: true,
@@ -13,12 +15,17 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     CommonModule,
     MatTabsModule, 
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    TablePaginationComponent
   ],
   templateUrl: './multi-pridiction-form.component.html',
   styleUrl: './multi-pridiction-form.component.css'
 })
 export class MultiPridictionFormComponent {
+
+  displayedColumns: string[] = ['serialNo', 'Bid Type Encoded', 'Boosted Encoded', 'Budget Normalized', 'Probability (%)', 'Year'];
+
   probability: number = 0;
   spinnerSubmit = false;
   showPopup: boolean = false;
@@ -29,6 +36,8 @@ export class MultiPridictionFormComponent {
   trueData: any[] = []; // Data for 'true' tab
   falseData: any[] = []; // Data for 'false' tab
   errorMessage: any;
+  trueDataCount: any = 0;
+  falseDataCount: any = 0;
   
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.jobForm = this.fb.group({
@@ -46,23 +55,16 @@ export class MultiPridictionFormComponent {
       };
       this.apiService.predict(payload).subscribe({
         next: (response) => {
-          console.log(response);
-           // Store the response
           this.apiResponse = response.data;
-
-          // Separate true and false data
           this.trueData = response.data.true.data;
+          this.trueDataCount = response.data.true.count;
           this.falseData = response.data.false.data;
+          this.falseDataCount = response.data.false.count;          
           this.spinnerSubmit = false;
         },
         error: (error) => {
-          console.error('API Error:', error);
-
-          // Check if error response has a specific message
           if (error.error && error.error.message) {
-            // Assuming error.message contains a readable error message
             console.error('Error message:', error.error.message);
-            // You can also display it in your UI, for example:
             this.errorMessage = error.error.message;
           } else {
             console.error('Unknown error occurred');
@@ -79,5 +81,6 @@ export class MultiPridictionFormComponent {
   get f() {
     return this.jobForm.controls;
   }
-
 }
+
+

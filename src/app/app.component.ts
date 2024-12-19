@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SinglePridictionFormComponent } from './components/single-pridiction-form/single-pridiction-form.component';
 import { MultiPridictionFormComponent } from './components/multi-pridiction-form/multi-pridiction-form.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { TablePaginationComponent } from './shared/table-pagination/table-pagination.component';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     CommonModule,
     ProgressPopupComponent,
     SinglePridictionFormComponent,
-    MultiPridictionFormComponent
+    MultiPridictionFormComponent,
+    TablePaginationComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
