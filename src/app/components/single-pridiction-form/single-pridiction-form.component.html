@@ -1,3 +1,6 @@
+
+
+
 <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm">
   <!-- Created Time -->
   <div *ngIf="errorMessage" class="error-message mb-3">
@@ -6,7 +9,8 @@
   
   <div class="mb-3">
     <label for="createdTime" class="form-label">Created Time</label>
-    <input type="datetime-local" id="createdTime" class="form-control" formControlName="createdTime" />
+    <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" formControlName="createdTime"  class="form-control">
+    <owl-date-time #dt1></owl-date-time>
     <div *ngIf="submitted && f.createdTime.invalid" class="text-danger">
       <small *ngIf="f.createdTime.errors?.required">Created Time is required.</small>
     </div>
