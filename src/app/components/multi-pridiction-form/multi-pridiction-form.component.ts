@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../service/app.service';
 import { CommonModule } from '@angular/common';
@@ -17,7 +17,7 @@ import { TablePaginationComponent } from '../../shared/table-pagination/table-pa
     MatTableModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    TablePaginationComponent
+    TablePaginationComponent,
   ],
   templateUrl: './multi-pridiction-form.component.html',
   styleUrl: './multi-pridiction-form.component.css'
@@ -32,9 +32,9 @@ export class MultiPridictionFormComponent {
   submitted = false;
   title = 'upwork-detail';
   jobForm: FormGroup;
-  apiResponse: any = {}; // Holds API response data
-  trueData: any[] = []; // Data for 'true' tab
-  falseData: any[] = []; // Data for 'false' tab
+  apiResponse: any = {}; 
+  trueData: any[] = []; 
+  falseData: any[] = []; 
   errorMessage: any;
   trueDataCount: any = 0;
   falseDataCount: any = 0;
@@ -64,10 +64,8 @@ export class MultiPridictionFormComponent {
         },
         error: (error) => {
           if (error.error && error.error.message) {
-            console.error('Error message:', error.error.message);
             this.errorMessage = error.error.message;
           } else {
-            console.error('Unknown error occurred');
             this.errorMessage = 'An unknown error occurred. Please try again later.';
           }
           this.spinnerSubmit = false;

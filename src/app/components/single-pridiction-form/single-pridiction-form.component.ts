@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProgressPopupComponent } from '../progress-popup/progress-popup.component';
+import { ProgressPopupComponent } from '../../shared/progress-popup/progress-popup.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiService } from '../../service/app.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+
 @Component({
   selector: 'app-single-pridiction-form',
   standalone: true,
@@ -17,7 +19,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgSelectModule,
     HttpClientModule,
     ProgressPopupComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   templateUrl: './single-pridiction-form.component.html',
   styleUrl: './single-pridiction-form.component.css'
@@ -93,8 +97,14 @@ export class SinglePridictionFormComponent {
     this.submitted = true;
     if (this.jobForm.valid) {
       this.spinnerSubmit = true;
+      console.log(this.jobForm.value);      
+      const createdTime = this.jobForm.value.createdTime;
+      const date = new Date(createdTime);
+      const formattedDate = this.formatDateToISO(date);
+      console.log(formattedDate);
+
       const payload = [{
-        "Created Time": this.jobForm.value.createdTime,
+        "Created Time": formattedDate,
         "Industry": this.jobForm.value.industry,
         "Technology": this.jobForm.value.technology,
         "Technology Category": this.jobForm.value.technologyCategory,
@@ -149,6 +159,17 @@ export class SinglePridictionFormComponent {
   // Getter for easier access to form controls in the template
   get f() {
     return this.jobForm.controls;
+  }
+
+  formatDateToISO(date: any) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // months are zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    // Format as YYYY-MM-DDTHH:mm
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
 
